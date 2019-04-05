@@ -1,0 +1,63 @@
+<html>
+    
+    <head>
+        
+        <title>Send To Disney</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" ref="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+    </head>
+    
+    <body>
+        
+        <p>Date: <input type="text" id="birthDatepicker"></p>
+        
+        <script type="text/javascript">
+            var sendToDisney = false;
+            var DisneyUrl = "https://www.tokyodisneyresort.jp/tc/index.html";
+            setInterval(checkSendToDisney, 3000);
+            
+            $(function(){
+                $("#birthDatepicker").datepicker({
+                    onSelect: function(){
+                        var birth = $(this).datepicker().val();
+                        var splitBirth = birth.split("/");
+                        var birthDate = new Date(splitBirth[2], splitBirth[0] - 1, splitBirth[1]);
+                        calculateAge(birthDate);
+                    }
+                });
+            });
+            
+            function calculateAge(birthDate){
+                var now = new Date();
+                var diff_year = now.getFullYear() - birthDate.getFullYear();
+                var diff_month = now.getMonth() - birthDate.getMonth();
+                var diff_date = now.getDate - birthDate.getDate();
+                if(diff_date < 0){
+                    diff_month -= 1;
+                }
+                if(diff_month < 0){
+                    diff_year -= 1;
+                }
+                if(diff_year < 18){
+                    sendToDisney = true;
+                }else{
+                    sendToDisney = false;
+                }
+            }
+            
+            function checkSendToDisney(){
+                console.log("check");
+                if(sendToDisney == true){
+                    window.location.replace(DisneyUrl);
+                }
+            }
+            
+        </script>
+        
+    </body>
+    
+</html>

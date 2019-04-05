@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>NN Multiplication Table(for)</title>
+        <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        N: <input id="userInput" type="text" />
+        <input id="submitButton" type="submit" value="Submit" />
+        <div id="showTable">
+        </div>
+        <script type="text/javascript">
+            var show = "";
+            var submitButton = $("#submitButton");
+            submitButton.click(function(){
+                show = "";
+                var userInput = $("#userInput").val();
+                show += "0|1";
+                var n1 = 0;
+                var n2 = 0;
+                n1 = 2;
+                while(n1 <= userInput){
+                    show = show + "," + n1;
+                    n1++;
+                }
+                n1 = 1;
+                show += "<br>";
+                while(n1 <= 2*userInput+1){
+                    show += "-";
+                    n1++;
+                }
+                show += "<br>";
+                n1 = 1;
+                while(n1 <= userInput){
+                    show = show + n1 + "|" + n1;
+                    n2 = 2;
+                    while(n2 <= userInput){
+                        var multiNumber = n1 * n2;
+                        show = show + "," + multiNumber;
+                        n2++;
+                    }
+                    show += "<br>";
+                    n1++
+                }
+                //console.log(show);
+                $("#showTable").html(show);
+            });
+            /*
+            function clearShowTable(){
+              console.log("clear");
+              $("#showTable").empty();
+            }
+            */
+        </script>
+    </body>
+</html>
