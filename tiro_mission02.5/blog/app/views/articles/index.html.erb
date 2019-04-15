@@ -1,20 +1,41 @@
+<h1>New Article</h1>
+<%= form_for :article, url: articles_path do |f| %>
+  <p>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :author %>
+    <%= f.text_field :author %>
+  </p>
+  <p>
+    <%= f.label :text %>
+    <%= f.text_area :text %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
 <h1>All Article</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Text</th>
-    <th>Time-created</th>
-  </tr>
-
-  <% @articles.each do |article, index| %>
+<%= form_tag '/articles/destroy'  do %>
+  <table border=1>
     <tr>
-      <td><%= article.title %></td>
-      <td><%= article.author %></td>
-      <td><%= article.text %></td>
-      <td><%= article.created_at %></td>
-      <td> <%= link_to 'show', show_article_url(article) %> </td>
+      <th></th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Time-created</th>
     </tr>
-  <% end %>
-</table>
+    <%- @articles.each do |article, index| -%>
+      <tr>
+        <td><%= check_box_tag('check_box[]', article.id, false) %></td>
+        <td><%= article.title %></td>
+        <td><%= article.author %></td>
+        <td><%= article.created_at %></td>
+        <td style="border: none;"><%= link_to 'show', show_article_url(article) %></td>
+      </tr>
+
+    <%- end -%>
+  </table>
+  <%= submit_tag "delete" %>
+<% end %>
