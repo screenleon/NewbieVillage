@@ -1,0 +1,5 @@
+{
+  "name": "blog_without_db",
+  "private": true,
+  "dependencies": {}
+}

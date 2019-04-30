@@ -1,0 +1,46 @@
+<h1>New Article</h1>
+<%= form_tag '/' do %>
+  <!-- i cant break down articles with title, author, text
+       i use map, each. all give error with no method-->
+  <%= hidden_field_tag "titles", @titles %>
+  <%= hidden_field_tag "authors", @authors %>
+  <%= hidden_field_tag "texts", @texts %>
+  <p>
+    <%= label_tag("title", "title:") %>
+    <%= text_field_tag("title") %>
+  </p>
+  <p>
+    <%= label_tag("author", "author:") %>
+    <%= text_field_tag("author") %>
+  </p>
+  <p>
+    <%= label_tag("text", "text:") %>
+    <%= text_field_tag("text") %>
+  </p>
+  <p>
+    <%= submit_tag("submit") %>
+  </p>
+<% end %>
+
+<h1>All Article</h1>
+<%= form_tag '/articles/destroy'  do %>
+  <%= hidden_field_tag "titles", @titles %>
+  <%= hidden_field_tag "authors", @authors %>
+  <%= hidden_field_tag "texts", @texts %>
+  <table border=1>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Author</th>
+    </tr>
+    <%- @articles.each_with_index do |article, index| -%>
+      <tr>
+        <td><%= check_box_tag('check_box[]', index, false) %></td>
+        <td><%= article[:title] %></td>
+        <td><%= article[:author] %></td>
+      </tr>
+
+    <%- end -%>
+  </table>
+  <%= submit_tag "delete" %>
+<% end %>
