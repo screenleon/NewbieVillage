@@ -23,7 +23,7 @@
 <% end %>
 
 <h1>All Article</h1>
-<%= form_tag '/articles/destroy'  do %>
+<%= form_tag '/'  do %>
   <%= hidden_field_tag "titles", @titles %>
   <%= hidden_field_tag "authors", @authors %>
   <%= hidden_field_tag "texts", @texts %>
@@ -38,8 +38,8 @@
         <td><%= check_box_tag('check_box[]', index, false) %></td>
         <td><%= article[:title] %></td>
         <td><%= article[:author] %></td>
+        <td style="border: none;"><%= link_to 'show', { controller: "articles", action: 'show'}, method: :post %></td>
       </tr>
-
     <%- end -%>
   </table>
   <%= submit_tag "delete" %>

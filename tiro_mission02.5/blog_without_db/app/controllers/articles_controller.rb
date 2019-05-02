@@ -4,21 +4,29 @@ class ArticlesController < ApplicationController
     @titles = ""
     @authors = ""
     @texts = ""
-    if params.has_key?(:titles) || params.has_key?(:authors) || params.has_key?(:texts)
-      if params[:titles].empty?
-        puts "empty"
-      else
-        @titles = params[:titles]
-        @authors = params[:authors]
-        @texts = params[:texts]
+    if params.has_key?(:commit) && params[:commit] == "delete"
+      @titles, @authors, @texts = delete(params)
+    else
+      if params.has_key?(:titles) || params.has_key?(:authors) || params.has_key?(:texts)
+        if !params[:titles].empty?
+          @titles += params[:titles]
+          @authors += params[:authors]
+          @texts += params[:texts]
+        end
+      end
+      if (params.has_key?(:title) || params.has_key?(:author) || params.has_key?(:text))
+        if params[:titles].empty?
+          @titles += params[:title]
+          @authors += params[:author]
+          @texts += params[:text]
+        else
+          @titles = @titles + " " + params[:title]
+          @authors = @authors + " " + params[:author]
+          @texts = @texts + " " + params[:text]
+        end
       end
     end
-    if (params.has_key?(:title) || params.has_key?(:author) || params.has_key?(:text))
-      @titles = @titles + " " + params[:title]
-      @authors = @authors + " " + params[:author]
-      @texts = @texts + " " + params[:text]
-    end
-    puts "titles is #{@titles}, authors is #{@authors}, texts is #{@texts}"
+    #puts "INDEX: titles is #{@titles}, authors is #{@authors}, texts is #{@texts}"
     @articles = restruct(@titles, @authors, @texts)
     #puts "articles is #{@articles}"
   end
@@ -33,19 +41,25 @@ class ArticlesController < ApplicationController
   end
 
 
-  def destroy
+  def delete(params)
+    puts "delete function"
     titles = Array.new
     authors = Array.new
     texts = Array.new
+    titles = params[:titles]
+    authors = params[:authors]
+    texts = params[:texts]
     while params[:check_box].last
       index = params[:check_box].last
-      titles = delete_string_at(params[:titles], index.to_i)
-      authors = delete_string_at(params[:authors], index.to_i)
-      texts = delete_string_at(params[:texts], index.to_i)
+      #puts "before, check box last: #{params[:check_box].last}"
+      titles = delete_string_at(titles, index.to_i)
+      authors = delete_string_at(authors, index.to_i)
+      texts = delete_string_at(texts, index.to_i)
       params[:check_box].pop
+      #puts "after, check box last: #{params[:check_box].last}"
     end
-    puts "titles is #{titles}, authors is #{authors}, texts is #{texts}"
-    redirect_to '/'
+    #puts "DELETE: titles is #{titles}, authors is #{authors}, texts is #{texts}"
+    return titles, authors, texts
   end
 
   def restruct(titles, authors, texts)
@@ -68,7 +82,7 @@ class ArticlesController < ApplicationController
   def delete_string_at(string, index)
     _string = string.split(" ")
     _string.delete_at(index)
-    _string.join(" ")
+    _string = _string.join(" ")
     return _string
   end
 
